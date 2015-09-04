@@ -1,9 +1,3 @@
-Content-type:text/html\r\n\r\n
-<html>
-<head>
-<title>7halo intern selection test</title>
-</head>
-<body>
-<h2>{"output": {"data": null, "success": null}}</h2>
-</body>
-</html>
+Content-type:application/json; charset=utf-8
+
+(1045, "Access denied for user 'SDSDroot'@'localhost' (using password: YES)")
