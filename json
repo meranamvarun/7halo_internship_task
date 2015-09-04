@@ -1,0 +1,33 @@
+#!/usr/bin/python
+#import the model for redering the view 
+from model import *
+
+# Import modules for CGI handling 
+import cgi, cgitb 
+
+# Create instance of FieldStorage 
+form = cgi.FieldStorage() 
+
+# Get data from fields
+id = form.getvalue('id')
+try:
+    id = int(id)
+
+#user may send a string in the get request , protection against that
+except ValueError:      
+    edit_view_html("Please enter a number in the get method")
+
+#user may send nothing in the get request
+except TypeError:
+    get_request(' ') # controller ---> model
+else:
+    get_request(id)  #contrller ---> model
+
+#Reading from the view -> view ---> controller 
+file=open("view.html","r")
+html_data=file.read()
+html_line_data=html_data.split("\n")
+for html_line in html_line_data:
+    print html_line
+    
+

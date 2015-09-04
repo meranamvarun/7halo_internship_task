@@ -1,0 +1,66 @@
+#!/usr/bin/python
+
+import MySQLdb
+import simplejson
+
+
+html_text_front=['Content-type:text/html\\r\\n\\r\\n', '<html>', '<head>', '<title>7halo intern selection test</title>', '</head>', '<body>'] 
+html_text_back=['</body>', '</html>']
+
+
+def get_request(intern_id):
+    outputs={}
+    data={}
+    output={}
+    outputs["output"]={"success":None,"data":None}
+    
+    if intern_id in range(1,5):
+        output["success"]=True
+        data["id"]=intern_id
+        
+        try:
+            db = MySQLdb.connect(host="localhost", # your host, usually localhost
+                       user="root", # your username
+                       passwd=")(*&^%$#@!", # your password
+                       db="7halo") # name of the data base
+            
+            cur = db.cursor() 
+            
+        except MySQLdb.Error as err:
+            file=open("view.html",'w')
+            file.write('\n'.join(html_text_front+['<h2>'+"Some error with the Database"+'</h2>']+html_text_back))
+            file.close()
+            
+        else:
+            cur.execute("SELECT name from interns where id=%s",str(intern_id))
+            for name_tuple in cur:
+                name=name_tuple[0]
+                
+            data["name"]=name
+	    output["data"]=data
+            outputs["output"]=output
+            json_output=simplejson.dumps(outputs)
+            print outputs
+            view_html_json_output = ['<h2>'+json_output+'</h2>']
+            
+            file=open("view.html",'w')
+            file.write('\n'.join(html_text_front+view_html_json_output+html_text_back))
+            file.close()
+               
+            
+            
+    else:
+        output["success"]=False
+
+        print 1
+        file=open("view.html",'w')
+        file.write('\n'.join(html_text_front+view_html_json_output+html_text_back))
+        file.close()
+               
+    
+        
+        
+            
+  
+        
+        
